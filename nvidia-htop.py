@@ -18,7 +18,6 @@ import os
 import re
 import subprocess
 import argparse
-from termcolor import colored
 
 MEMORY_FREE_RATIO = 0.05
 MEMORY_MODERATE_RATIO = 0.9
@@ -27,7 +26,7 @@ GPU_MODERATE_RATIO = 0.75
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-l', '--command-length', default=20, const=100, type=int, nargs='?')
-parser.add_argument('-c', '--color', action='store_true')
+parser.add_argument('-c', '--color', default=False, action='store_false')
 
 args = parser.parse_args()
 
@@ -42,7 +41,6 @@ if fake_stdin_path is not None:
         lines = f.readlines()
 else:
     lines = sys.stdin.readlines()
-
 
 def colorize(_lines):
     for i in range(len(_lines)):
@@ -80,6 +78,8 @@ for i in range(len(lines)):
         break
 
 if color:
+    print(color)
+    from termcolor import colored
     lines_to_print = colorize(lines_to_print)
 
 for line in lines_to_print:
